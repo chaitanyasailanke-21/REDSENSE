@@ -1,0 +1,8 @@
+{
+  "name": "EzeCheck Health Telemetry & Flutter Suite",
+  "description": "Cross-platform mobile health monitoring application and complete Flutter project suite for ESP32, MAX30102 pulse oximeter, and ESP32-CAM optical screening with real-time charts, cloud sync, and PDF/CSV reporting.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

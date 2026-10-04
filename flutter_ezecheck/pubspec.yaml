@@ -1,0 +1,46 @@
+name: ezecheck_health_monitor
+description: Cross-platform mobile health monitoring application (Android & iOS) for ESP32, MAX30102 pulse oximeter, and ESP32-CAM optical screening.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  # State Management & Utilities
+  provider: ^6.1.2
+  intl: ^0.19.0
+  uuid: ^4.4.0
+  shared_preferences: ^2.3.2
+  path_provider: ^2.1.4
+
+  # Hardware Connectivity (BLE + Wi-Fi HTTP/WebSocket + ESP32-CAM MJPEG)
+  flutter_blue_plus: ^1.32.12
+  http: ^1.2.2
+  web_socket_channel: ^3.0.1
+
+  # Charts & Graphs (Line Charts + Bar Charts)
+  fl_chart: ^0.69.0
+
+  # Export Options (CSV & Formatted Clinical PDF Report)
+  csv: ^6.0.0
+  pdf: ^3.11.1
+  printing: ^5.13.2
+  share_plus: ^10.0.2
+
+  # Firebase Authentication & Cloud Sync
+  firebase_core: ^3.4.0
+  firebase_auth: ^5.2.0
+  cloud_firestore: ^5.4.0
+  firebase_storage: ^12.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

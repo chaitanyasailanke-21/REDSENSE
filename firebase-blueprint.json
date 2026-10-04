@@ -1,0 +1,255 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user account profile for REDSENSE research prototype.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User full name",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address",
+          "minLength": 3,
+          "maxLength": 254
+        },
+        "deviceHardwareId": {
+          "type": "string",
+          "description": "Paired REDSENSE ESP32 device identifier",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account creation server timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Profile update server timestamp"
+        }
+      },
+      "required": ["uid", "displayName", "email", "deviceHardwareId", "createdAt", "updatedAt"]
+    },
+    "ScreeningSession": {
+      "title": "ScreeningSession",
+      "description": "Multimodal non-invasive anemia screening research session record.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "Authenticated user UID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "deviceId": {
+          "type": "string",
+          "description": "ESP32 hardware node identifier",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "heartRate": {
+          "type": "number",
+          "description": "Supporting heart rate in BPM"
+        },
+        "spo2": {
+          "type": "number",
+          "description": "Supporting SpO2 percentage"
+        },
+        "signalQuality": {
+          "type": "number",
+          "description": "Optical and PPG signal quality score (0-100)"
+        },
+        "irRaw": {
+          "type": "number",
+          "description": "MAX30102 raw IR ADC count"
+        },
+        "redRaw": {
+          "type": "number",
+          "description": "MAX30102 raw Red ADC count"
+        },
+        "screeningOutcome": {
+          "type": "string",
+          "description": "Non-diagnostic screening category",
+          "enum": [
+            "Lower anemia risk indicated",
+            "Elevated anemia risk indicated",
+            "Insufficient data"
+          ],
+          "minLength": 5,
+          "maxLength": 60
+        },
+        "confidence": {
+          "type": "number",
+          "description": "Model confidence percentage (0-100)"
+        },
+        "modelVersion": {
+          "type": "string",
+          "description": "Multimodal AI model version identifier",
+          "minLength": 3,
+          "maxLength": 64
+        },
+        "isDemo": {
+          "type": "boolean",
+          "description": "Whether session was recorded using simulated demo data"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Session notes and spectral summary",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "recordedAtMs": {
+          "type": "number",
+          "description": "Epoch timestamp in milliseconds"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Firestore server timestamp"
+        }
+      },
+      "required": [
+        "ownerId",
+        "deviceId",
+        "heartRate",
+        "spo2",
+        "signalQuality",
+        "irRaw",
+        "redRaw",
+        "screeningOutcome",
+        "confidence",
+        "modelVersion",
+        "isDemo",
+        "notes",
+        "recordedAtMs",
+        "createdAt"
+      ]
+    },
+    "HealthReading": {
+      "title": "HealthReading",
+      "description": "Individual physiological and optical sensor reading.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "heartRate": { "type": "number" },
+        "spo2": { "type": "number" },
+        "hemoglobin": { "type": "number" },
+        "perfusionIndex": { "type": "number" },
+        "skinTemp": { "type": "number" },
+        "deviceName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "connectionType": {
+          "type": "string",
+          "enum": ["BLE", "WiFi", "DEMO"],
+          "minLength": 2,
+          "maxLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": ["nominal", "warning", "critical"],
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "notes": { "type": "string", "minLength": 0, "maxLength": 500 },
+        "recordedAtMs": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "ownerId",
+        "heartRate",
+        "spo2",
+        "hemoglobin",
+        "perfusionIndex",
+        "skinTemp",
+        "deviceName",
+        "connectionType",
+        "status",
+        "notes",
+        "recordedAtMs",
+        "createdAt"
+      ]
+    },
+    "CameraCapture": {
+      "title": "CameraCapture",
+      "description": "Optical nailbed or conjunctival image capture from ESP32-CAM.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "captureMode": {
+          "type": "string",
+          "enum": [
+            "Nailbed Optical Capture",
+            "Conjunctival Optical Acquisition",
+            "Sclera Hemoglobin Scan",
+            "Fingertip PPG Optical",
+            "MAX30102 Sensor Alignment"
+          ],
+          "minLength": 1,
+          "maxLength": 50
+        },
+        "resolution": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "estimatedHb": { "type": "number" },
+        "spo2AtCapture": { "type": "number" },
+        "heartRateAtCapture": { "type": "number" },
+        "imageDataUrl": { "type": "string", "minLength": 5, "maxLength": 350000 },
+        "recordedAtMs": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "ownerId",
+        "title",
+        "captureMode",
+        "resolution",
+        "estimatedHb",
+        "spo2AtCapture",
+        "heartRateAtCapture",
+        "imageDataUrl",
+        "recordedAtMs",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile documents"
+    },
+    "/screening_sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/ScreeningSession" },
+      "description": "Multimodal anemia screening research sessions"
+    },
+    "/readings/{readingId}": {
+      "schema": { "$ref": "#/entities/HealthReading" },
+      "description": "Sensor telemetry readings"
+    },
+    "/captures/{captureId}": {
+      "schema": { "$ref": "#/entities/CameraCapture" },
+      "description": "ESP32-CAM optical captures"
+    }
+  }
+}
